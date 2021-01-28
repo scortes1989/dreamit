@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\Access;
 use App\Models\Building;
+use App\Models\Lock;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -67,6 +68,30 @@ class AccessTest extends TestCase
             'user_id'       => $user->id,
             'building_id'   => $building->id,
         ]);
+    }
+
+    function test_validate_lock_user_at_enter_by_building()
+    {
+        $user = $this->signIn();
+
+        $building = Building::factory()->create();
+        Lock::factory()->create([
+            'user_id'       => $user->id,
+            'building_id'   => $building->id,
+        ]);
+
+        $parameters = [
+            'type'          => Access::ENTER,
+            'building_id'   => $building->id,
+        ];
+
+        $this->postJson('api/v1/accesses', $parameters)
+            ->assertStatus(422)
+            ->assertJson([
+                'errors'  => [
+                    'building_id'   => ['El Usuario no tiene acceso a este edificio.']
+                ]
+            ]);
     }
 
     function test_store_a_leave_by_building()

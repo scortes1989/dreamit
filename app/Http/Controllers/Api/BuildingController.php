@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BuildingStore;
+use App\Http\Requests\BuildingUpdate;
 use App\Http\Resources\BuildingResource;
 use App\Models\Building;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
@@ -23,14 +24,14 @@ class BuildingController extends Controller
         return new BuildingResource($building);
     }
 
-    public function store(Request $request): BuildingResource
+    public function store(BuildingStore $request): BuildingResource
     {
         $building = Building::create($request->only(['name', 'address']));
 
         return new BuildingResource($building);
     }
 
-    public function update(Request $request, Building $building): BuildingResource
+    public function update(BuildingUpdate $request, Building $building): BuildingResource
     {
         $building->update($request->only(['name', 'address']));
 

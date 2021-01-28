@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserStore;
+use App\Http\Requests\UserUpdate;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
@@ -23,14 +24,14 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function store(Request $request): UserResource
+    public function store(UserStore $request): UserResource
     {
         $user = User::create($request->only(['name', 'email', 'password']));
 
         return new UserResource($user);
     }
 
-    public function update(Request $request, User $user): UserResource
+    public function update(UserUpdate $request, User $user): UserResource
     {
         $user->update($request->only(['name', 'email', 'password']));
 

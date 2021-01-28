@@ -66,6 +66,21 @@ class UserTest extends TestCase
         ]);
     }
 
+    function test_validate_user_at_store()
+    {
+        $this->signIn();
+
+        $this->postJson('api/v1/users', [])
+            ->assertStatus(422)
+            ->assertJson([
+                'errors'  => [
+                    'name'      => ['El campo Nombre es obligatorio.'],
+                    'email'     => ['El campo E-mail es obligatorio.'],
+                    'password'  => ['El campo Contraseña es obligatorio.'],
+                ]
+            ]);
+    }
+
     function test_update_a_user()
     {
         $this->signIn();
@@ -92,6 +107,22 @@ class UserTest extends TestCase
             'name'      => $data->name,
             'email'     => $data->email,
         ]);
+    }
+
+    function test_validate_user_at_update()
+    {
+        $this->signIn();
+
+        $user = User::factory()->create();
+
+        $this->putJson('api/v1/users/'.$user->id, [])
+            ->assertStatus(422)
+            ->assertJson([
+                'errors'  => [
+                    'name'      => ['El campo Nombre es obligatorio.'],
+                    'email'     => ['El campo E-mail es obligatorio.'],
+                ]
+            ]);
     }
 
     function test_delete_a_user()

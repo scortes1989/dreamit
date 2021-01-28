@@ -67,6 +67,20 @@ class BuildingTest extends TestCase
         ]);
     }
 
+    function test_validate_building_at_store()
+    {
+        $this->signIn();
+
+        $this->postJson('api/v1/buildings', [])
+            ->assertStatus(422)
+            ->assertJson([
+                'errors'  => [
+                    'name'      => ['El campo Nombre es obligatorio.'],
+                    'address'   => ['El campo Dirección es obligatorio.']
+                ]
+            ]);
+    }
+
     function test_update_a_building()
     {
         $this->signIn();
@@ -92,6 +106,22 @@ class BuildingTest extends TestCase
             'name'      => $data->name,
             'address'   => $data->address,
         ]);
+    }
+
+    function test_validate_building_at_update()
+    {
+        $this->signIn();
+
+        $building = Building::factory()->create();
+
+        $this->putJson('api/v1/buildings/'.$building->id, [])
+            ->assertStatus(422)
+            ->assertJson([
+                'errors'  => [
+                    'name'      => ['El campo Nombre es obligatorio.'],
+                    'address'   => ['El campo Dirección es obligatorio.']
+                ]
+            ]);
     }
 
     function test_destroy_a_building()

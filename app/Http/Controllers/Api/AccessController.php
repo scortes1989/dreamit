@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AccessStore;
 use App\Http\Resources\AccessResource;
 use App\Models\Access;
 use Illuminate\Http\Request;
 
 class AccessController extends Controller
 {
-    public function store(Request $request): AccessResource
+    public function store(AccessStore $request): AccessResource
     {
         $request->merge(['user_id' => $request->user('api')->id]);
 

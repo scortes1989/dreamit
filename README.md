@@ -1,5 +1,5 @@
 API realizada bajo Laravel 8, cuenta con los test necesarios para esta
-El desarrollo fue realizado bajo laravel valet, pero se instala laravel sail para uso de contenedores
+Se puede ejecutar bajo un entorno dockerizado a traves de Laravel Sail: https://laravel.com/docs/8.x/sail
 
 La documentación de esta API se encuentra disponible en 
 
